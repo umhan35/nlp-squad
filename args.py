@@ -1,5 +1,4 @@
 """Command-line arguments for setup.py, train.py, test.py.
-
 Author:
     Chris Chute (chute@stanford.edu)
 """
@@ -113,7 +112,7 @@ def get_train_args():
                         type=float,
                         default=0.2,
                         help='Probability of zeroing an activation in dropout layers.')
-    parser.add_argument('--metric_name',
+    parser.add_argument('--metric_name', # for Best Checkpoint
                         type=str,
                         default='F1',
                         choices=('NLL', 'EM', 'F1'),
@@ -204,11 +203,17 @@ def add_common_args(parser):
 
 def add_train_test_args(parser):
     """Add arguments common to train.py and test.py"""
-    parser.add_argument('--name',
+    parser.add_argument('--name', # Name for checkpoint directory
                         '-n',
                         type=str,
                         required=True,
                         help='Name to identify training or test run.')
+    parser.add_argument('--model',
+                        '-m',
+                        type=str,
+                        default='BiDAF-w-char',
+                        choices=('BiDAF-baseline', 'BiDAF-w-char'),
+                        help='Model to train.')
     parser.add_argument('--max_ans_len',
                         type=int,
                         default=15,
@@ -238,7 +243,7 @@ def add_train_test_args(parser):
                         type=int,
                         default=10,
                         help='Number of examples to visualize in TensorBoard.')
-    parser.add_argument('--load_path',
+    parser.add_argument('--load_path', # Must assign checkpoint when "testing"
                         type=str,
                         default=None,
                         help='Path to load as a model checkpoint.')
